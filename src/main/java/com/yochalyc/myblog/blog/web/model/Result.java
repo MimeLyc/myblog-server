@@ -8,7 +8,7 @@ public class Result<T> {
     private String errorCode;
     private String errorMsg;
     private boolean isSuccess = true;
-    private T resultBody;
+    private T data;
 
     public Result(String errorCode, String errorMsg) {
         this.errorCode = errorCode;
@@ -17,6 +17,6 @@ public class Result<T> {
     }
 
     public Result(T result) {
-        this.resultBody = result;
+        this.data = result;
     }
 }
