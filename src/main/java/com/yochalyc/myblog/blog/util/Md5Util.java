@@ -3,6 +3,7 @@ package com.yochalyc.myblog.blog.util;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Random;
+import java.util.UUID;
 
 public class Md5Util {
 
@@ -52,6 +53,10 @@ public class Md5Util {
     public static String encryptWithSalt(String raw, String salt) {
         String toEncrypt = String.join("", salt, raw);
         return md5_32(toEncrypt);
+    }
+
+    public static String randomToken_16() {
+        return md5_16(UUID.randomUUID().toString());
     }
 
 }

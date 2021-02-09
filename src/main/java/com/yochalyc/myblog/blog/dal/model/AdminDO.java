@@ -11,7 +11,7 @@ import java.util.Date;
 public class AdminDO {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private String id;
+    private Integer id;
 
     @Column(unique = true)
     private String adminId;
@@ -30,5 +30,12 @@ public class AdminDO {
     private Boolean isHealth;
 
     private Date lastLoginTime;
+
+    public AdminDO(){}
+
+    public AdminDO(String adminName, String password) {
+        this.adminName = adminName;
+        this.password = password;
+    }
 
 }

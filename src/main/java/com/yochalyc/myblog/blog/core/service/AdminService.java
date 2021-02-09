@@ -5,4 +5,6 @@ import com.yochalyc.myblog.blog.dal.model.AdminDO;
 public interface AdminService {
 
     public AdminDO login(String adminName, String password);
+
+    public void register(String adminName, String password);
 }

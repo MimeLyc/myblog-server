@@ -24,7 +24,6 @@ public class AdminController {
     @ResponseBody
     public Result<LoginResultVO> login(String username, String password) {
         try {
-
             adminService.login(username, password);
         } catch (NullPointerException e) {
             return new Result<>("403", "用户名或密码错误");
@@ -41,6 +40,17 @@ public class AdminController {
                 .build();
 
         return new Result<>(loginResultVO);
+    }
+
+    @PostMapping(path = "")
+    @ResponseBody
+    public Result<Void> register(String adminName, String password) {
+        try {
+            adminService.register(adminName, password);
+            return new Result<>(null);
+        } catch (Exception e) {
+            return new Result<>("", e.getMessage());
+        }
     }
 
 }

@@ -10,9 +10,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
 import java.util.Date;
-import java.util.UUID;
 
 import static com.yochalyc.myblog.blog.config.GlobalProperties.ADMIN_TOKEN_DURATION;
 
@@ -40,12 +40,34 @@ public class AdminServiceImpl implements AdminService {
 
         admin.setLastLoginTime(now);
         admin.setTokenExpireIn(DateUtils.addDays(now, ADMIN_TOKEN_DURATION));
-        admin.setAccessToken(Md5Util.md5_16(UUID.randomUUID().toString()));
+        admin.setAccessToken(Md5Util.randomToken_16());
 
         adminDAO.save(admin);
 
         return admin;
     }
+
+    @Override
+    public void register(String adminName, String password) {
+        AdminDO admin = adminDAO.findFirstByAdminName(adminName);
+        Assert.isNull(admin, "用户已经存在");
+
+        AdminDO adminDO = new AdminDO(adminName, password);
+        adminDO.setAdminId(Md5Util.randomToken_16());
+        adminDO.setIsHealth(true);
+
+        String salt = Md5Util.randomSalt(16);
+        adminDO.setSalt(salt);
+        adminDO.setPassword(Md5Util.encryptWithSalt(password, salt));
+
+        Date now = new Date();
+        adminDO.setLastLoginTime(now);
+        adminDO.setAccessToken(Md5Util.randomToken_16());
+        adminDO.setTokenExpireIn(DateUtils.addDays(now, ADMIN_TOKEN_DURATION));
+
+        adminDAO.save(adminDO);
+    }
+
 
     private Boolean isPasswordValid(String pwdHash, String salt, String inputPwd) {
         String hashedPwd = Md5Util.encryptWithSalt(inputPwd, salt);
