@@ -8,6 +8,10 @@ public class Md5Util {
 
     private static char[] hex = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
 
+    public static String md5_16(String raw) {
+        return md5_32(raw).substring(16);
+    }
+
     public static String md5_32(String raw) {
         try {
             MessageDigest md = MessageDigest.getInstance("MD5");

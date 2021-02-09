@@ -22,6 +22,6 @@ public class Token {
     /**
      * expire interval
      */
-    private long exp;
+    private Integer exp;
 
 }

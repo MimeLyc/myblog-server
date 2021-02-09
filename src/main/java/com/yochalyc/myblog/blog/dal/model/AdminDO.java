@@ -25,7 +25,7 @@ public class AdminDO {
 
     private String accessToken;
 
-    private String tokenExpireIn;
+    private Date tokenExpireIn;
 
     private Boolean isHealth;
 

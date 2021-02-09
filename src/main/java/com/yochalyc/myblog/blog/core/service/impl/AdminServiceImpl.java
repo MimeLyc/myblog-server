@@ -7,8 +7,14 @@ import com.yochalyc.myblog.blog.exception.AdminStatusErrorException;
 import com.yochalyc.myblog.blog.exception.PwdValidationException;
 import com.yochalyc.myblog.blog.util.Md5Util;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Date;
+import java.util.UUID;
+
+import static com.yochalyc.myblog.blog.config.GlobalProperties.ADMIN_TOKEN_DURATION;
 
 
 @Service
@@ -30,9 +36,15 @@ public class AdminServiceImpl implements AdminService {
             throw new PwdValidationException();
         }
 
+        Date now = new Date();
 
+        admin.setLastLoginTime(now);
+        admin.setTokenExpireIn(DateUtils.addDays(now, ADMIN_TOKEN_DURATION));
+        admin.setAccessToken(Md5Util.md5_16(UUID.randomUUID().toString()));
 
-        return null;
+        adminDAO.save(admin);
+
+        return admin;
     }
 
     private Boolean isPasswordValid(String pwdHash, String salt, String inputPwd) {

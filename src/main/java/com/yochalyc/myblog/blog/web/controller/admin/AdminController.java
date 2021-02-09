@@ -1,6 +1,7 @@
 package com.yochalyc.myblog.blog.web.controller.admin;
 
 import com.yochalyc.myblog.blog.core.service.AdminService;
+import com.yochalyc.myblog.blog.dal.model.AdminDO;
 import com.yochalyc.myblog.blog.web.model.LoginResultVO;
 import com.yochalyc.myblog.blog.web.model.Result;
 import com.yochalyc.myblog.blog.web.model.Token;
@@ -10,7 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.Date;
+import static com.yochalyc.myblog.blog.config.GlobalProperties.ADMIN_TOKEN_DURATION;
 
 @Controller
 @RequestMapping("/admin")
@@ -19,7 +20,6 @@ public class AdminController {
     @Autowired
     private AdminService adminService;
 
-    //    login response
     @PostMapping(path = "/login")
     @ResponseBody
     public Result<LoginResultVO> login(String username, String password) {
@@ -30,12 +30,15 @@ public class AdminController {
             return new Result<>("403", "用户名或密码错误");
         }
 
-        long expireInterval = 7 * 24 * 60 * 60 * 1000;
-        Date tokenExpiresIn = new Date();
-        tokenExpiresIn.setTime(tokenExpiresIn.getTime() + expireInterval);
+        AdminDO adminDO = adminService.login(username, password);
 
-        Token token = new Token("test", tokenExpiresIn, expireInterval);
-        LoginResultVO loginResultVO = new LoginResultVO("111", token, new Date(), username);
+        LoginResultVO loginResultVO = LoginResultVO
+                .builder()
+                .lastLoginTime(adminDO.getLastLoginTime())
+                .token(new Token(adminDO.getAccessToken(),
+                        adminDO.getTokenExpireIn(), ADMIN_TOKEN_DURATION))
+                .userName(adminDO.getAdminName())
+                .build();
 
         return new Result<>(loginResultVO);
     }

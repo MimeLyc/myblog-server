@@ -2,6 +2,8 @@ package com.yochalyc.myblog.blog.exception;
 
 public class BaseException extends RuntimeException {
 
+    protected String errorCode;
+
     public BaseException() {
         super();
     }
@@ -16,6 +18,11 @@ public class BaseException extends RuntimeException {
 
     public BaseException(Throwable cause) {
         super(cause);
+    }
+
+    public BaseException(ErrorCode code) {
+        super("[" + code.getCode() + "]" + code.getDesc());
+        this.errorCode = code.getCode().toString();
     }
 
 }

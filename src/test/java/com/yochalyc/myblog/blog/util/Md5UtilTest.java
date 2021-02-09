@@ -8,6 +8,7 @@ public class Md5UtilTest {
     @Test
     public void testMd5() {
         Assert.assertEquals(32, Md5Util.md5_32("test").length());
+        Assert.assertEquals(16, Md5Util.md5_16("test").length());
     }
 
 }
