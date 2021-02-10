@@ -9,7 +9,7 @@ import java.util.Date;
 @Data
 @AllArgsConstructor
 @Builder
-public class LoginResultVO {
+public class LoginResultDTO {
 
     private String userId;
 

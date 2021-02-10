@@ -4,7 +4,8 @@ import com.yochalyc.myblog.blog.core.service.ArticleService;
 import com.yochalyc.myblog.blog.dal.enums.ArticleStatus;
 import com.yochalyc.myblog.blog.dal.model.ArticleDO;
 import com.yochalyc.myblog.blog.web.model.ArticleConditionVO;
-import com.yochalyc.myblog.blog.web.model.ArticleListVO;
+import com.yochalyc.myblog.blog.web.model.ArticleListDTO;
+import com.yochalyc.myblog.blog.web.model.ArticleOpRequest;
 import com.yochalyc.myblog.blog.web.model.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -29,14 +30,14 @@ public class AdminArticleController {
 
     @GetMapping("/list/status")
     @ResponseBody
-    public Result<ArticleListVO> getListsByStatus(ArticleStatus status, int page, int pageSize) {
+    public Result<ArticleListDTO> getListsByStatus(ArticleStatus status, int page, int pageSize) {
         page = getPage(page);
         pageSize = getPageSize(pageSize);
 
         try {
             List<ArticleDO> articleList = articleService.getListByStatus(status, page, pageSize);
 
-            ArticleListVO result = ArticleListVO.builder()
+            ArticleListDTO result = ArticleListDTO.builder()
                     .page(page)
                     .pageSize(pageSize)
                     .count(articleList.size())
@@ -53,7 +54,7 @@ public class AdminArticleController {
 
     @PostMapping("")
     @ResponseBody
-    public Result<Void> save() {
+    public Result<Void> save(ArticleOpRequest request) {
         return new Result<>(null);
     }
 

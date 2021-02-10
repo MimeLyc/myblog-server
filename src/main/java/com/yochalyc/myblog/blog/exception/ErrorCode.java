@@ -5,7 +5,10 @@ public enum ErrorCode {
 
     ADMIN_NOT_FOUND(10000, "用户名或密码错误"),
     ADMIN_PWD_ERROR(10001, "密码错误"),
-    ADMIN_STATUS_ABNORMAL(10002, "用户状态异常");
+    ADMIN_STATUS_ABNORMAL(10002, "用户状态异常"),
+
+    ADMIN_ARTICLE_NOT_FOUND(20000, "文章不存在")
+    ;
 
 
     private Integer code;

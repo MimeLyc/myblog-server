@@ -7,7 +7,7 @@ import java.util.List;
 
 @Data
 @Builder
-public class ArticleListVO {
+public class ArticleListDTO {
 
     private Integer page;
 

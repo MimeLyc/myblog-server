@@ -2,7 +2,7 @@ package com.yochalyc.myblog.blog.web.controller.admin;
 
 import com.yochalyc.myblog.blog.core.service.AdminService;
 import com.yochalyc.myblog.blog.dal.model.AdminDO;
-import com.yochalyc.myblog.blog.web.model.LoginResultVO;
+import com.yochalyc.myblog.blog.web.model.LoginResultDTO;
 import com.yochalyc.myblog.blog.web.model.Result;
 import com.yochalyc.myblog.blog.web.model.Token;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +22,7 @@ public class AdminController {
 
     @PostMapping(path = "/login")
     @ResponseBody
-    public Result<LoginResultVO> login(String username, String password) {
+    public Result<LoginResultDTO> login(String username, String password) {
         try {
             adminService.login(username, password);
         } catch (NullPointerException e) {
@@ -31,7 +31,7 @@ public class AdminController {
 
         AdminDO adminDO = adminService.login(username, password);
 
-        LoginResultVO loginResultVO = LoginResultVO
+        LoginResultDTO loginResultDTO = LoginResultDTO
                 .builder()
                 .lastLoginTime(adminDO.getLastLoginTime())
                 .token(new Token(adminDO.getAccessToken(),
@@ -39,7 +39,7 @@ public class AdminController {
                 .userName(adminDO.getAdminName())
                 .build();
 
-        return new Result<>(loginResultVO);
+        return new Result<>(loginResultDTO);
     }
 
     @PostMapping(path = "")

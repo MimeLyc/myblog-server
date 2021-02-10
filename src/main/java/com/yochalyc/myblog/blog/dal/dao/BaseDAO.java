@@ -1,10 +1,10 @@
 package com.yochalyc.myblog.blog.dal.dao;
 
 import com.yochalyc.myblog.blog.dal.model.BaseDO;
+import com.yochalyc.myblog.blog.util.Md5Util;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.NoRepositoryBean;
 import org.springframework.transaction.annotation.Transactional;
 
