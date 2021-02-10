@@ -25,7 +25,7 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public AdminDO login(String adminName, String password) throws NullPointerException {
-        AdminDO admin = adminDAO.findFirstByAdminName(adminName);
+        AdminDO admin = adminDAO.findByAdminName(adminName);
         if (admin == null) {
             throw new NullPointerException();
         }
@@ -49,7 +49,7 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public void register(String adminName, String password) {
-        AdminDO admin = adminDAO.findFirstByAdminName(adminName);
+        AdminDO admin = adminDAO.findByAdminName(adminName);
         Assert.isNull(admin, "用户已经存在");
 
         AdminDO adminDO = new AdminDO(adminName, password);

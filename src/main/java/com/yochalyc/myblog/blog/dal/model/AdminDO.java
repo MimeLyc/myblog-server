@@ -8,11 +8,7 @@ import java.util.Date;
 @Entity
 @Data
 @Table(name = "admin", indexes = @Index(name = "id_name", columnList = "adminName"))
-public class AdminDO {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
-
+public class AdminDO extends BaseDO {
     @Column(unique = true)
     private String adminId;
 
