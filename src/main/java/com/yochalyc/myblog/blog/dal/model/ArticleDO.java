@@ -54,5 +54,7 @@ public class ArticleDO extends BaseDO {
     )
     private Set<TagDO> tags;
 
+    @OneToMany(targetEntity = CommentDO.class, mappedBy = "article", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<CommentDO> comments;
 
 }

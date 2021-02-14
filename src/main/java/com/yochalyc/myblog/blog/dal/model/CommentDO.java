@@ -22,13 +22,16 @@ public class CommentDO extends BaseDO {
     @PrimaryKeyJoinColumn(name = "reply_comment_id", referencedColumnName = "uid")
     private CommentDO replyComment;
 
+    @ManyToOne(cascade = CascadeType.ALL, optional = false, fetch = FetchType.LAZY)
+    @JoinColumns({
+            @JoinColumn(name = "article_id", referencedColumnName = "uid", insertable = false, updatable = false)
+    })
     private ArticleDO article;
 
     private String contentJson;
 
     private String rawContent;
 
-    private String 
-
+    private Boolean isAuthor;
 
 }
