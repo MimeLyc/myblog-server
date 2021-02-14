@@ -12,4 +12,6 @@ public interface ArticleService {
 
     public String save(ArticleDTO request);
 
+    public Integer countByStatus(ArticleStatus status);
+
 }

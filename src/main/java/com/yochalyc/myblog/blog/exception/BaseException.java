@@ -1,5 +1,8 @@
 package com.yochalyc.myblog.blog.exception;
 
+import lombok.Data;
+
+@Data
 public class BaseException extends RuntimeException {
 
     protected String errorCode;

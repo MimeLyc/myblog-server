@@ -10,10 +10,7 @@ import javax.persistence.Id;
 
 @Entity
 @Data
-public class UserDO {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+public class UserDO extends BaseDO{
 
     private String nick;
 

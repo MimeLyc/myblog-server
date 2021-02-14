@@ -1,12 +1,17 @@
 package com.yochalyc.myblog.blog.web.controller.admin;
 
 import com.yochalyc.myblog.blog.core.service.AdminService;
+import com.yochalyc.myblog.blog.core.service.ArticleService;
+import com.yochalyc.myblog.blog.core.service.CategoryService;
+import com.yochalyc.myblog.blog.core.service.TagService;
 import com.yochalyc.myblog.blog.dal.model.AdminDO;
+import com.yochalyc.myblog.blog.web.model.AdminStatisticInfo;
 import com.yochalyc.myblog.blog.web.model.LoginResultDTO;
 import com.yochalyc.myblog.blog.web.model.Result;
 import com.yochalyc.myblog.blog.web.model.Token;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -19,6 +24,15 @@ public class AdminController {
 
     @Autowired
     private AdminService adminService;
+
+    @Autowired
+    private ArticleService articleService;
+
+    @Autowired
+    private CategoryService categoryService;
+
+    @Autowired
+    private TagService tagService;
 
     @PostMapping(path = "/login")
     @ResponseBody
@@ -51,6 +65,12 @@ public class AdminController {
         } catch (Exception e) {
             return new Result<>("", e.getMessage());
         }
+    }
+
+    @GetMapping(path = "/statistic")
+    @ResponseBody
+    public Result<AdminStatisticInfo> getStatistic() {
+        return null;
     }
 
 }

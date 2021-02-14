@@ -5,6 +5,7 @@ import com.yochalyc.myblog.blog.util.Md5Util;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import org.springframework.data.repository.NoRepositoryBean;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,7 +19,7 @@ import java.util.Optional;
  * @param <ID>
  */
 @NoRepositoryBean
-public interface BaseDAO<T extends BaseDO, ID extends Long> extends JpaRepository<T, ID> {
+public interface BaseDAO<T extends BaseDO, ID extends Long> extends JpaRepository<T, ID>, QuerydslPredicateExecutor<T> {
 
     @Override
     @Transactional(readOnly = true)
@@ -74,5 +75,16 @@ public interface BaseDAO<T extends BaseDO, ID extends Long> extends JpaRepositor
     @Transactional
     @Modifying
     void deleteAll();
+
+    default String saveWithoutId(T entity) {
+        String uid = Md5Util.randomToken_16();
+
+        entity.setUid(uid);
+        save(entity);
+
+        return uid;
+    }
+
+    public T findByUid(String uid);
 
 }

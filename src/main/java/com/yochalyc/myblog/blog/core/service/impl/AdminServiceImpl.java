@@ -53,7 +53,7 @@ public class AdminServiceImpl implements AdminService {
         Assert.isNull(admin, "用户已经存在");
 
         AdminDO adminDO = new AdminDO(adminName, password);
-        adminDO.setAdminId(Md5Util.randomToken_16());
+        adminDO.setUid(Md5Util.randomToken_16());
         adminDO.setIsHealth(true);
 
         String salt = Md5Util.randomSalt(16);

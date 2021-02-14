@@ -1,21 +1,20 @@
 package com.yochalyc.myblog.blog.web.controller.admin;
 
+import com.yochalyc.myblog.blog.core.converter.ArticleConverter;
 import com.yochalyc.myblog.blog.core.service.ArticleService;
 import com.yochalyc.myblog.blog.dal.enums.ArticleStatus;
 import com.yochalyc.myblog.blog.dal.model.ArticleDO;
-import com.yochalyc.myblog.blog.web.model.ArticleConditionVO;
+import com.yochalyc.myblog.blog.exception.BaseException;
+import com.yochalyc.myblog.blog.web.controller.enums.ArticleQueryByEnum;
+import com.yochalyc.myblog.blog.web.model.ArticleDTO;
 import com.yochalyc.myblog.blog.web.model.ArticleListDTO;
-import com.yochalyc.myblog.blog.web.model.ArticleOpRequest;
 import com.yochalyc.myblog.blog.web.model.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static com.yochalyc.myblog.blog.config.GlobalProperties.DEFAULT_PAGE_SIZE;
 import static com.yochalyc.myblog.blog.config.GlobalProperties.MAX_PAGE_SIZE;
@@ -28,22 +27,31 @@ public class AdminArticleController {
     private ArticleService articleService;
 
 
-    @GetMapping("/list/status")
+    @GetMapping("/list")
     @ResponseBody
-    public Result<ArticleListDTO> getListsByStatus(ArticleStatus status, int page, int pageSize) {
+    public Result<ArticleListDTO> getLists(ArticleQueryByEnum by, ArticleStatus status,
+                                           int page, int pageSize) {
         page = getPage(page);
         pageSize = getPageSize(pageSize);
 
         try {
-            List<ArticleDO> articleList = articleService.getListByStatus(status, page, pageSize);
+            List<ArticleDO> articleList = new ArrayList<>();
+
+            switch (by) {
+                case STATUS:
+                    articleList = articleService.getListByStatus(status, page, pageSize);
+                    break;
+                default:
+                    break;
+            }
+
+            ArticleConverter converter = new ArticleConverter();
 
             ArticleListDTO result = ArticleListDTO.builder()
                     .page(page)
                     .pageSize(pageSize)
                     .count(articleList.size())
-                    .list(articleList.stream()
-                            .map(ArticleConditionVO::new)
-                            .collect(Collectors.toList())
+                    .list(converter.createFromEntities(articleList)
                     ).build();
             return new Result<>(result);
         } catch (Exception e) {
@@ -54,8 +62,15 @@ public class AdminArticleController {
 
     @PostMapping("")
     @ResponseBody
-    public Result<Void> save(ArticleOpRequest request) {
-        return new Result<>(null);
+    public Result<String> save(@RequestBody ArticleDTO request) {
+        try {
+            String articleId = articleService.save(request);
+            return new Result<>(articleId);
+        } catch (BaseException e) {
+            return new Result<>(e.getErrorCode(), e.getMessage());
+        } catch (Exception e) {
+            return new Result<>("", e.getMessage());
+        }
     }
 
 

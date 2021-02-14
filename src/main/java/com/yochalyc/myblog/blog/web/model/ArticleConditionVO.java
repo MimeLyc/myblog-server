@@ -30,7 +30,7 @@ public class ArticleConditionVO {
     private Boolean isEncrypt;
 
     public ArticleConditionVO(ArticleDO articleDO) {
-        this.articleId = articleDO.getArticleId();
+        this.articleId = articleDO.getUid();
         this.title = articleDO.getTitle();
         this.categoryName = articleDO.getCategory().getName();
         this.createTime = articleDO.getCreateTime();

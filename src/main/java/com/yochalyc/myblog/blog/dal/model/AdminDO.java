@@ -9,8 +9,6 @@ import java.util.Date;
 @Data
 @Table(name = "admin", indexes = @Index(name = "id_name", columnList = "adminName"))
 public class AdminDO extends BaseDO {
-    @Column(unique = true)
-    private String adminId;
 
     @Column(unique = true)
     private String adminName;

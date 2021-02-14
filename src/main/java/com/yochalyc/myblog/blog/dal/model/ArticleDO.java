@@ -5,26 +5,21 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.Set;
 
 @Entity
 @Data
-@Table(name = "article", indexes = @Index(name = "id_articleId", columnList = "articleId"))
+@Table(name = "article", indexes = @Index(name = "id_articleId", columnList = "uid"))
 public class ArticleDO extends BaseDO {
-
-    @Column(unique = true)
-    private String articleId;
 
     private String title;
 
-    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH}, optional = false)
-    @JoinColumn(name = "categoryId", referencedColumnName = "categoryId", insertable = false, updatable = false)
+    @ManyToOne(cascade = CascadeType.ALL, optional = true, fetch = FetchType.LAZY)
+    @JoinColumns({
+            @JoinColumn(name = "category_id", referencedColumnName = "uid", insertable = false, updatable = false),
+            @JoinColumn(name = "category_name", referencedColumnName = "name", insertable = false, updatable = false)
+    })
     private CategoryDO category;
-
-    private Date createTime;
-
-    private Date deleteTime;
-
-    private Date updateTime;
 
     private Date publishTime;
 
@@ -45,6 +40,19 @@ public class ArticleDO extends BaseDO {
     private Long pv;
 
     private Boolean isEncrypt = false;
+
+    @ManyToMany
+    @JoinTable(
+            name = "article_tag",
+            joinColumns = {
+                    @JoinColumn(name = "article_id", referencedColumnName = "uid")
+            },
+            inverseJoinColumns = {
+                    @JoinColumn(name = "tag_id", referencedColumnName = "uid")
+            }
+
+    )
+    private Set<TagDO> tags;
 
 
 }

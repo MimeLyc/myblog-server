@@ -3,7 +3,7 @@ package com.yochalyc.myblog.blog.core.converter;
 import com.yochalyc.myblog.blog.dal.model.ArticleDO;
 import com.yochalyc.myblog.blog.dal.model.CategoryDO;
 import com.yochalyc.myblog.blog.web.model.ArticleDTO;
-import com.yochalyc.myblog.blog.web.model.CategoryInfo;
+import com.yochalyc.myblog.blog.web.model.CategoryDTO;
 
 import java.util.Optional;
 
@@ -16,18 +16,18 @@ public class ArticleConverter extends Converter<ArticleDTO, ArticleDO> {
     private static ArticleDO convertToEntity(ArticleDTO articleDTO) {
         ArticleDO articleDO = new ArticleDO();
 
-        Optional<CategoryInfo> categoryInfo = Optional.ofNullable(articleDTO.getCategory());
+        Optional<CategoryDTO> categoryInfo = Optional.ofNullable(articleDTO.getCategory());
 
         categoryInfo.ifPresent(
                 item -> {
                     CategoryDO categoryDO = new CategoryDO();
-                    categoryDO.setCategoryId(item.getId());
+                    categoryDO.setUid(item.getId());
                     categoryDO.setName(item.getName());
                     articleDO.setCategory(categoryDO);
                 }
         );
 
-        articleDO.setArticleId(articleDTO.getId());
+        articleDO.setUid(articleDTO.getId());
         articleDO.setTitle(articleDTO.getTitle());
         articleDO.setContent(articleDTO.getContent());
         articleDO.setHtmlContent(articleDTO.getHtmlContent());
@@ -44,14 +44,14 @@ public class ArticleConverter extends Converter<ArticleDTO, ArticleDO> {
 
         categoryDO.ifPresent(
                 item -> {
-                    CategoryInfo category = new CategoryInfo();
-                    category.setId(item.getCategoryId());
+                    CategoryDTO category = new CategoryDTO();
+                    category.setId(item.getUid());
                     category.setName(item.getName());
                     articleDTO.setCategory(category);
                 }
         );
 
-        articleDTO.setId(articleDO.getArticleId());
+        articleDTO.setId(articleDO.getUid());
         articleDTO.setTitle(articleDO.getTitle());
         articleDTO.setContent(articleDO.getContent());
         articleDTO.setHtmlContent(articleDO.getHtmlContent());

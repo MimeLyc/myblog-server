@@ -15,6 +15,6 @@ public class ArticleListDTO {
 
     private Integer count;
 
-    private List<ArticleConditionVO> list;
+    private List<ArticleDTO> list;
 
 }

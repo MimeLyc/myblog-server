@@ -2,15 +2,13 @@ package com.yochalyc.myblog.blog.core.service.impl;
 
 import com.yochalyc.myblog.blog.core.converter.ArticleConverter;
 import com.yochalyc.myblog.blog.core.service.ArticleService;
-import com.yochalyc.myblog.blog.dal.dao.repository.ArticleDAO;
+import com.yochalyc.myblog.blog.dal.dao.ArticleDAO;
 import com.yochalyc.myblog.blog.dal.enums.ArticleStatus;
 import com.yochalyc.myblog.blog.dal.model.ArticleDO;
 import com.yochalyc.myblog.blog.exception.ArticleNotFoundException;
 import com.yochalyc.myblog.blog.web.model.ArticleDTO;
 import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,11 +21,9 @@ public class ArticleServiceImpl implements ArticleService {
     private ArticleDAO articleDAO;
 
     @Override
-    public @NonNull List<ArticleDO> getListByStatus(ArticleStatus status, int page, int pageSize) {
-        PageRequest pageRequest = PageRequest.of(page, pageSize);
-        Page<ArticleDO> articlePage = articleDAO.findByStatus(status, pageRequest);
-
-        return articlePage.getContent();
+    public @NonNull List<ArticleDO> getListByStatus(ArticleStatus status,
+                                                    int page, int pageSize) {
+        return articleDAO.findByStatusOrOrderByPublishTime(status, page, pageSize);
     }
 
     @Override
@@ -35,11 +31,11 @@ public class ArticleServiceImpl implements ArticleService {
         ArticleConverter converter = new ArticleConverter();
         ArticleDO articleDO = converter.convertFromDto(request);
 
-        String articleId = articleDO.getArticleId();
+        String articleId = articleDO.getUid();
         if (Objects.isNull(articleId)) {
             articleId = articleDAO.saveWithoutId(articleDO);
         } else {
-            ArticleDO isExist = articleDAO.findByArticleId(articleId);
+            ArticleDO isExist = articleDAO.findByUid(articleId);
             if (Objects.isNull(isExist)) {
                 throw new ArticleNotFoundException();
             }
@@ -54,5 +50,10 @@ public class ArticleServiceImpl implements ArticleService {
         return articleId;
     }
 
-    
+    @Override
+    public Integer countByStatus(ArticleStatus status) {
+        long count = articleDAO.countByStatus(status);
+        return Math.toIntExact(count);
+    }
+
 }
