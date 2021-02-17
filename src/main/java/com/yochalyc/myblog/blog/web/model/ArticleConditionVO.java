@@ -33,9 +33,9 @@ public class ArticleConditionVO {
         this.articleId = articleDO.getUid();
         this.title = articleDO.getTitle();
         this.categoryName = articleDO.getCategory().getName();
-        this.createTime = articleDO.getCreateTime();
-        this.deleteTime = articleDO.getDeleteTime();
-        this.updateTime = articleDO.getUpdateTime();
+        this.createTime = articleDO.getDataCreatedTime();
+        this.deleteTime = articleDO.getDataDeletedTime();
+        this.updateTime = articleDO.getDataModifiedTime();
         this.publishTime = articleDO.getPublishTime();
         this.status = articleDO.getStatus();
         this.pv = articleDO.getPv();

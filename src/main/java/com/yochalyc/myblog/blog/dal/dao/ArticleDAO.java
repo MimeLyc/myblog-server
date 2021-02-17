@@ -11,7 +11,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Date;
 import java.util.List;
 
 public interface ArticleDAO extends BaseDAO<ArticleDO, Long> {
@@ -38,8 +37,6 @@ public interface ArticleDAO extends BaseDAO<ArticleDO, Long> {
         String articleId = Md5Util.randomToken_16();
 
         articleDO.setUid(articleId);
-        articleDO.setCreateTime(new Date());
-        articleDO.setUpdateTime(new Date());
         articleDO.setStatus(ArticleStatus.DRAFT);
 
         save(articleDO);
@@ -49,8 +46,6 @@ public interface ArticleDAO extends BaseDAO<ArticleDO, Long> {
 
     @Transactional
     default String saveWithId(ArticleDO articleDO) {
-        articleDO.setDeleteTime(null);
-        articleDO.setUpdateTime(new Date());
         if (articleDO.getStatus() == ArticleStatus.DELETED) {
             articleDO.setStatus(ArticleStatus.DRAFT);
         }

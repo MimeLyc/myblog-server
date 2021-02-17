@@ -1,9 +1,6 @@
 package com.yochalyc.myblog.blog.web.controller.admin;
 
-import com.yochalyc.myblog.blog.core.service.AdminService;
-import com.yochalyc.myblog.blog.core.service.ArticleService;
-import com.yochalyc.myblog.blog.core.service.CategoryService;
-import com.yochalyc.myblog.blog.core.service.TagService;
+import com.yochalyc.myblog.blog.core.service.*;
 import com.yochalyc.myblog.blog.dal.model.AdminDO;
 import com.yochalyc.myblog.blog.web.model.AdminStatisticInfo;
 import com.yochalyc.myblog.blog.web.model.LoginResultDTO;
@@ -33,6 +30,9 @@ public class AdminController {
 
     @Autowired
     private TagService tagService;
+
+    @Autowired
+    private CommentService commentService;
 
     @PostMapping(path = "/login")
     @ResponseBody

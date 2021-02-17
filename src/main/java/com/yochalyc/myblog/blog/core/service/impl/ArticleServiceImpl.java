@@ -46,7 +46,6 @@ public class ArticleServiceImpl implements ArticleService {
             articleId = articleDAO.saveWithId(articleDO);
         }
 
-
         return articleId;
     }
 
