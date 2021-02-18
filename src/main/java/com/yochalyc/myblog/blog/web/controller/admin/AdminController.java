@@ -1,6 +1,7 @@
 package com.yochalyc.myblog.blog.web.controller.admin;
 
 import com.yochalyc.myblog.blog.core.service.*;
+import com.yochalyc.myblog.blog.dal.enums.ArticleStatus;
 import com.yochalyc.myblog.blog.dal.model.AdminDO;
 import com.yochalyc.myblog.blog.web.model.AdminStatisticInfo;
 import com.yochalyc.myblog.blog.web.model.LoginResultDTO;
@@ -70,7 +71,19 @@ public class AdminController {
     @GetMapping(path = "/statistic")
     @ResponseBody
     public Result<AdminStatisticInfo> getStatistic() {
-        return null;
+        Integer publishedArticleCount = articleService.countByStatus(ArticleStatus.PUBLISHED);
+        Integer deletedArticleCount = articleService.countByStatus(ArticleStatus.DELETED);
+        Integer draftCount = articleService.countByStatus(ArticleStatus.DRAFT);
+
+        Integer categoryCount = categoryService.count();
+        Integer tagCount = tagService.count();
+        Integer commentCount = commentService.count();
+
+
+        AdminStatisticInfo result = new AdminStatisticInfo(publishedArticleCount, deletedArticleCount,
+                draftCount, categoryCount, tagCount, commentCount);
+
+        return new Result<>(result);
     }
 
 }
