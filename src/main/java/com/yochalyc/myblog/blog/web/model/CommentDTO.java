@@ -7,19 +7,23 @@ import java.util.Date;
 
 @Data
 @AllArgsConstructor
-public class CategoryDTO {
+public class CommentDTO {
 
     private String id;
 
     private String name;
 
-    private Boolean canDelete;
+    private String articleTitle;
+
+    private String content;
+
+    private Boolean isAuthor;
+
+    private String parentId;
+
+    private String replyId;
 
     private Date createTime;
-
-    private Date updateTime;
-
-    private Integer articleCount;
 
     private Boolean isDeleted;
 }

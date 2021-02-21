@@ -5,6 +5,7 @@ import com.yochalyc.myblog.blog.core.service.ArticleService;
 import com.yochalyc.myblog.blog.dal.enums.ArticleStatus;
 import com.yochalyc.myblog.blog.dal.model.ArticleDO;
 import com.yochalyc.myblog.blog.exception.BaseException;
+import com.yochalyc.myblog.blog.util.PageUtil;
 import com.yochalyc.myblog.blog.web.controller.enums.ArticleQueryByEnum;
 import com.yochalyc.myblog.blog.web.model.ArticleDTO;
 import com.yochalyc.myblog.blog.web.model.ArticleListDTO;
@@ -16,8 +17,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.yochalyc.myblog.blog.config.GlobalProperties.DEFAULT_PAGE_SIZE;
-import static com.yochalyc.myblog.blog.config.GlobalProperties.MAX_PAGE_SIZE;
 
 @Controller
 @RequestMapping("/admin/article")
@@ -31,8 +30,8 @@ public class AdminArticleController {
     @ResponseBody
     public Result<ArticleListDTO> getLists(ArticleQueryByEnum by, ArticleStatus status,
                                            int page, int pageSize) {
-        page = getPage(page);
-        pageSize = getPageSize(pageSize);
+        page = PageUtil.formatPage(page);
+        pageSize = PageUtil.formatPageSize(pageSize);
 
         try {
             List<ArticleDO> articleList = new ArrayList<>();
@@ -71,14 +70,5 @@ public class AdminArticleController {
         } catch (Exception e) {
             return new Result<>("", e.getMessage());
         }
-    }
-
-
-    private int getPage(int page) {
-        return page < 0 ? 0 : page;
-    }
-
-    private int getPageSize(int pageSize) {
-        return pageSize < 0 || pageSize > MAX_PAGE_SIZE ? DEFAULT_PAGE_SIZE : pageSize;
     }
 }

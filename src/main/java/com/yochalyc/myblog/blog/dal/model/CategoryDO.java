@@ -16,4 +16,6 @@ public class CategoryDO extends BaseDO {
 
     @OneToMany(targetEntity = ArticleDO.class, mappedBy = "category", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<ArticleDO> articles;
+
+    private Boolean isUserDeleted = false;
 }

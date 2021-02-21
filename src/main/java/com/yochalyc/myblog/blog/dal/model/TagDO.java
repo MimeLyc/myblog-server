@@ -3,7 +3,6 @@ package com.yochalyc.myblog.blog.dal.model;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.util.Date;
 import java.util.Set;
 
 @Entity
@@ -25,5 +24,7 @@ public class TagDO extends BaseDO {
 
     )
     private Set<ArticleDO> articles;
+
+    private Boolean isUserDeleted = false;
 
 }

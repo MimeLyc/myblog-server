@@ -17,12 +17,12 @@ public interface ArticleDAO extends BaseDAO<ArticleDO, Long> {
 
     @Transactional(readOnly = true)
     @Query(value = "select e from #{#entityName} e " +
-            "where e.isDeleted = false and e.uid <> -1"
+            "where e.isDeleted = false and e.uid <> -1 and e.status = ?1"
     )
     Page<ArticleDO> findByStatus(ArticleStatus status, Pageable pageable);
 
 
-    default List<ArticleDO> findByStatusOrOrderByPublishTime(ArticleStatus status, int page, int pageSize) {
+    default List<ArticleDO> findByStatusOrderByPublishTime(ArticleStatus status, int page, int pageSize) {
         PageRequest pageRequest = PageRequest.of(page, pageSize,
                 Sort.by(Sort.Direction.DESC, "publishTime")
         );

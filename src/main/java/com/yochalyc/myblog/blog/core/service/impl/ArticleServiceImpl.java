@@ -23,7 +23,7 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public @NonNull List<ArticleDO> getListByStatus(ArticleStatus status,
                                                     int page, int pageSize) {
-        return articleDAO.findByStatusOrOrderByPublishTime(status, page, pageSize);
+        return articleDAO.findByStatusOrderByPublishTime(status, page, pageSize);
     }
 
     @Override

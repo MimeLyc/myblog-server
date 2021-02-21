@@ -42,11 +42,11 @@ public class ArticleConverter extends Converter<ArticleDTO, ArticleDO> {
 
         Optional<CategoryDO> categoryDO = Optional.ofNullable(articleDO.getCategory());
 
+        CategoryConverter categoryConverter = new CategoryConverter();
+
         categoryDO.ifPresent(
                 item -> {
-                    CategoryDTO category = new CategoryDTO();
-                    category.setId(item.getUid());
-                    category.setName(item.getName());
+                    CategoryDTO category = categoryConverter.convertFromEntity(item);
                     articleDTO.setCategory(category);
                 }
         );

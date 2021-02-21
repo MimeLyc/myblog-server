@@ -7,13 +7,11 @@ import java.util.Date;
 
 @Data
 @AllArgsConstructor
-public class CategoryDTO {
+public class TagDTO {
 
-    private String id;
+    private String tagId;
 
-    private String name;
-
-    private Boolean canDelete;
+    private String tagName;
 
     private Date createTime;
 
@@ -22,4 +20,5 @@ public class CategoryDTO {
     private Integer articleCount;
 
     private Boolean isDeleted;
+
 }
