@@ -7,8 +7,9 @@ public enum ErrorCode {
     ADMIN_PWD_ERROR(10001, "密码错误"),
     ADMIN_STATUS_ABNORMAL(10002, "用户状态异常"),
 
-    ADMIN_ARTICLE_NOT_FOUND(20000, "文章不存在")
-    ;
+    ADMIN_ARTICLE_NOT_FOUND(20000, "文章不存在"),
+
+    BLOG_CONFIG_NOT_FOUND(50000, "缺少博客配置信息");
 
 
     private Integer code;

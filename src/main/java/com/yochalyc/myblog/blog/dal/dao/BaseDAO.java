@@ -95,4 +95,8 @@ public interface BaseDAO<T extends BaseDO, ID extends Long> extends JpaRepositor
     )
     Page<T> findByPage(Pageable pageable);
 
+    @Transactional(readOnly = true)
+    @Query("select e from #{#entityName} e where e.isDeleted = false")
+    Optional<T> findAny();
+
 }
