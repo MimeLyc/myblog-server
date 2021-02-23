@@ -1,11 +1,14 @@
 package com.yochalyc.myblog.blog.web.controller.admin;
 
+import com.yochalyc.myblog.blog.core.service.BlogConfigService;
 import com.yochalyc.myblog.blog.dal.dao.BlogConfigDAO;
 import com.yochalyc.myblog.blog.dal.model.BlogConfigDO;
 import com.yochalyc.myblog.blog.exception.BaseException;
 import com.yochalyc.myblog.blog.exception.BlogConfigNotFoundException;
 import com.yochalyc.myblog.blog.web.model.BlogConfigDTO;
 import com.yochalyc.myblog.blog.web.model.Result;
+import com.yochalyc.myblog.blog.web.model.SetBlogConfigRequest;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,6 +24,10 @@ public class AdminBlogConfigController {
 
     @Autowired
     private BlogConfigDAO blogConfigDAO;
+
+    @Autowired
+    private BlogConfigService blogConfigService;
+
 
     @GetMapping("")
     @ResponseBody
@@ -43,7 +50,18 @@ public class AdminBlogConfigController {
 
     @PostMapping("")
     @ResponseBody
-    public Result<BlogConfigDTO> setConfig() {
+    public Result<BlogConfigDTO> setConfig(SetBlogConfigRequest request) {
+        try {
+            BlogConfigDO configDO = blogConfigService.setConfig(request);
+
+
+            return new Result<>(new BlogConfigDTO(configDO.getBlogName(), configDO.getAvatar(),
+                    configDO.getSign(), configDO.getGithub()));
+        } catch (BaseException e) {
+            return new Result<>(e.getErrorCode(), e.getMessage());
+        } catch (Exception e) {
+            return new Result<>("", e.getMessage());
+        }
 
     }
 

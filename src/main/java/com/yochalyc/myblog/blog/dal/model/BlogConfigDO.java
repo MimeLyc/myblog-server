@@ -1,5 +1,6 @@
 package com.yochalyc.myblog.blog.dal.model;
 
+import com.yochalyc.myblog.blog.util.Md5Util;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -58,5 +59,11 @@ public class BlogConfigDO extends BaseDO {
      * 加密文章阅读盐
      */
     private String salt;
+
+    public void setPwdAndSalt(String rawPwd) {
+        String salt = Md5Util.randomSalt(16);
+        this.setSalt(salt);
+        this.setViewPassword(Md5Util.encryptWithSalt(rawPwd, salt));
+    }
 
 }

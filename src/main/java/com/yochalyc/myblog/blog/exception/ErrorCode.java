@@ -9,7 +9,9 @@ public enum ErrorCode {
 
     ADMIN_ARTICLE_NOT_FOUND(20000, "文章不存在"),
 
-    BLOG_CONFIG_NOT_FOUND(50000, "缺少博客配置信息");
+    BLOG_CONFIG_NOT_FOUND(50000, "缺少博客配置信息"),
+    BLOG_PWD_WRONG(50002, "博客密码错误"),
+    BLOG_PWD_CAN_NOT_BE_NULL(50002, "博客密码不能为空");
 
 
     private Integer code;

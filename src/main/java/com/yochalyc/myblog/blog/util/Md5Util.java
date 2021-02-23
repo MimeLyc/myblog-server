@@ -1,5 +1,7 @@
 package com.yochalyc.myblog.blog.util;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Random;
@@ -37,6 +39,7 @@ public class Md5Util {
 
     /**
      * get salt
+     *
      * @param capacity lenth of salt
      * @return
      */
@@ -57,6 +60,11 @@ public class Md5Util {
 
     public static String randomToken_16() {
         return md5_16(UUID.randomUUID().toString());
+    }
+
+    public static Boolean isPasswordValid(String pwdHash, String salt, String inputPwd) {
+        String hashedPwd = Md5Util.encryptWithSalt(inputPwd, salt);
+        return StringUtils.equals(pwdHash, hashedPwd);
     }
 
 }
