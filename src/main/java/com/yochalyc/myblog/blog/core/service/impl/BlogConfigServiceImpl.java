@@ -66,7 +66,7 @@ public class BlogConfigServiceImpl implements BlogConfigService {
         configDO.setAlipayQrcode(request.getAlipayQrcode());
         configDO.setWxpayQrcode(request.getWxpayQrcode());
 
-        blogConfigDAO.saveAndFlush(configDO);
+        configDO = blogConfigDAO.saveAndFlush(configDO);
 
         return configDO;
     }

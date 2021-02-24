@@ -1,9 +1,11 @@
 package com.yochalyc.myblog.blog.web.model;
 
+import lombok.Builder;
 import lombok.Data;
 
 @Data
-public class SetBlogConfigRequest {
+@Builder
+public class AdminBlogConfigDTO {
 
     private String blogName;
 
@@ -17,11 +19,6 @@ public class SetBlogConfigRequest {
 
     private String github;
 
-    private Boolean isSetPwdRequest = false;
-
-    private String oldPassword;
-
-    private String viewPassword;
-
+    private Boolean hadOldPassword;
 
 }
